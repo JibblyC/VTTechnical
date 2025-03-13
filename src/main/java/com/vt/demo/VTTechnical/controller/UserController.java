@@ -12,7 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/users")
-public class HelloController {
+public class UserController {
 
     @Autowired
     private UserService userService;
@@ -21,4 +21,5 @@ public class HelloController {
     public List<User> getUser(@PathVariable String email) {
         return userService.getUser(email);
     }
+
 }

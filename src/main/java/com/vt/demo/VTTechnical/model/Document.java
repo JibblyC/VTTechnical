@@ -13,15 +13,24 @@ public class Document {
 
     private String documentName;
 
-    private String documentText;
-
-    private String wordCount;
+    private Long wordCount;
 
     private Timestamp dateAdded;
 
     @ManyToOne
     @JoinColumn(name = "user_id") // The foreign key column
     User user;
+
+
+    public Document(String documentName, Long wordCount, User user) {
+        this.documentName = documentName;
+        this.wordCount = wordCount;
+        this.user = user;
+        this.dateAdded = new Timestamp(System.currentTimeMillis());
+    }
+
+    public Document() {
+    }
 
     public Long getDocumentId() {
         return documentId;
@@ -39,19 +48,11 @@ public class Document {
         this.documentName = documentName;
     }
 
-    public String getDocumentText() {
-        return documentText;
-    }
-
-    public void setDocumentText(String documentText) {
-        this.documentText = documentText;
-    }
-
-    public String getWordCount() {
+    public Long getWordCount() {
         return wordCount;
     }
 
-    public void setWordCount(String wordCount) {
+    public void setWordCount(Long wordCount) {
         this.wordCount = wordCount;
     }
 
