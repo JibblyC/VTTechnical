@@ -8,10 +8,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.jdbc.Sql;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.springframework.test.context.jdbc.Sql.ExecutionPhase.BEFORE_TEST_CLASS;
 
 
 @SpringBootTest
-@Sql(scripts = "/create-schema.sql")
+@Sql(scripts = "/create-schema.sql" ,executionPhase = BEFORE_TEST_CLASS)
 public class TeamServiceTests {
 
     @Autowired

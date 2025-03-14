@@ -12,10 +12,11 @@ import org.springframework.test.context.jdbc.Sql;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.springframework.test.context.jdbc.Sql.ExecutionPhase.BEFORE_TEST_CLASS;
 
 
 @SpringBootTest
-@Sql(scripts = "/create-schema.sql")
+@Sql(scripts = "/create-schema.sql", executionPhase = BEFORE_TEST_CLASS)
 public class UserServiceTests {
 
     public static final String TEST_EMAIL_FAKE_COM = "TestEmail@fake.com";

@@ -12,7 +12,7 @@ import java.nio.file.Paths;
 @SpringBootApplication
 public class VtTechnicalApplication {
 
-	@Value("${file.upload-dir}")
+	@Value("${document.upload.directory}")
 	private String uploadDir;
 
 	public static void main(String[] args) {
