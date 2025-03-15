@@ -14,11 +14,15 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    GeminiService geminiService;
+
     public User createUser(@Validated User user) {
             return userRepository.save(user);
     }
 
     public List<User> getUser(String email) {
+
         return userRepository.findByEmail(email);
     }
 }

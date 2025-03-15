@@ -46,8 +46,8 @@ public class DocumentController {
     }
 
     @GetMapping("/topwords/{documentId}")
-    public ResponseEntity<Object> uploadFile(@PathVariable("documentId") long documentID) throws IOException {
-        Optional<Document> savedDocument = documentService.getDocumentByDocumentId(documentID);
+    public ResponseEntity<Object> uploadFile(@PathVariable("documentId") long docuemntID) throws IOException {
+        Optional<Document> savedDocument = documentService.getDocumentByDocumentId(docuemntID);
         if (savedDocument.isEmpty()) {
             return new ResponseEntity<>("Document ID is not valid", HttpStatus.BAD_REQUEST);
         }

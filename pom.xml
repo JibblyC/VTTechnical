@@ -43,7 +43,12 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-
+		<dependency>
+			<groupId>org.springframework.ai</groupId>
+			<artifactId>spring-ai-vertex-ai-gemini-spring-boot-starter</artifactId>
+			<version>1.0.0-M6</version>
+		</dependency>
+<!--		DB Related Stuff-->
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
@@ -53,6 +58,8 @@
 			<artifactId>h2</artifactId>
 			<scope>test</scope>
 		</dependency>
+
+
 	</dependencies>
 
 
