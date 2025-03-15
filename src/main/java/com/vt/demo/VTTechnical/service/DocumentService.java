@@ -74,6 +74,23 @@ public class DocumentService {
         return topTenMap;
     }
 
+    public String getLongestWordInDocument(Document document) throws IOException {
+        BufferedReader reader = new BufferedReader(new FileReader(uploadDir +"/"+ document.getDocumentName()));
+        Pattern wordPattern = Pattern.compile(REGEX_WORD_PATTERN);
+        String line;
+        String longestWord = "";
+        while ((line = reader.readLine()) != null) {
+            Matcher matcher = wordPattern.matcher(line);
+            while(matcher.find()){
+                String word = matcher.group().toUpperCase();
+                if(word.length() > longestWord.length()){
+                    longestWord = word;
+                }
+            }
+        }
+    return longestWord;
+    }
+
 
     private long countWordsInUploadedFile(MultipartFile uploadedFile) throws IOException {
         // Get input stream of the file

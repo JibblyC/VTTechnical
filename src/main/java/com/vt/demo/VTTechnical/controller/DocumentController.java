@@ -3,6 +3,7 @@ package com.vt.demo.VTTechnical.controller;
 import com.vt.demo.VTTechnical.model.Document;
 import com.vt.demo.VTTechnical.model.User;
 import com.vt.demo.VTTechnical.service.DocumentService;
+import com.vt.demo.VTTechnical.service.GeminiService;
 import com.vt.demo.VTTechnical.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,6 +24,9 @@ public class DocumentController {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    private GeminiService geminiService;
 
     @PostMapping("/upload")
     public ResponseEntity<String> uploadFile(@RequestParam("document") MultipartFile document, @RequestParam("useremail") String userEmail) {
@@ -53,6 +57,17 @@ public class DocumentController {
         }
         Map<String, Integer> topTen = documentService.getTopTenWordCount(savedDocument.get());
         return new ResponseEntity<>(topTen, HttpStatus.OK);
+
+    }
+
+    @GetMapping("/gemini/synonym/{documentId}")
+    public ResponseEntity<Object> getSynonymSuggestions(@PathVariable("documentId") long docuemntID) throws IOException {
+        Optional<Document> savedDocument = documentService.getDocumentByDocumentId(docuemntID);
+        if (savedDocument.isEmpty()) {
+            return new ResponseEntity<>("Document ID is not valid", HttpStatus.BAD_REQUEST);
+        }
+        String longestWord = documentService.getLongestWordInDocument(savedDocument.get());
+        return new ResponseEntity<>(geminiService.chat(String.format("List some Synonyms for the word : %s",longestWord)), HttpStatus.OK);
 
     }
 }
