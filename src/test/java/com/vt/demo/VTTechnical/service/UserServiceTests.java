@@ -1,39 +1,35 @@
 package com.vt.demo.VTTechnical.service;
 
-import com.vt.demo.VTTechnical.dao.TeamRepository;
-import com.vt.demo.VTTechnical.dao.UserRepository;
 import com.vt.demo.VTTechnical.model.Team;
 import com.vt.demo.VTTechnical.model.User;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.jdbc.Sql;
 
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.springframework.test.context.jdbc.Sql.ExecutionPhase.BEFORE_TEST_CLASS;
 
-
-@SpringBootTest
-@Sql(scripts = "/create-schema.sql", executionPhase = BEFORE_TEST_CLASS)
-public class UserServiceTests {
+public class UserServiceTests extends BaseServiceTest {
 
     public static final String TEST_EMAIL_FAKE_COM = "TestEmail@fake.com";
-    @Autowired
-    UserService userService;
-
-    @Autowired
-    TeamRepository teamRepository;
-
-    @Autowired
-    UserRepository userRepository;
+    public static final String JOHN_DOE_2_EXAMPLE_COM = "john.doe2@example.com";
 
     @Test
     public void testCreateUser() {
+        Team team = teamRepository.findByTeamName("Team1");
+        userService.createOrUpdateUser(new User(TEST_EMAIL_FAKE_COM, List.of(team)));
+        assertNotNull(userRepository.findByEmail(TEST_EMAIL_FAKE_COM));
+    }
 
-        List<Team> teams = teamRepository.findByTeamName("Team1");
-        userService.createUser(new User(TEST_EMAIL_FAKE_COM, teams));
-        assertNotNull(userRepository.findByEmail(TEST_EMAIL_FAKE_COM).getFirst());
+    @Test
+    public void testAssignUserToTeam(){
+        User testUser = userService.getUser(JOHN_DOE_2_EXAMPLE_COM);
+        assertEquals(1,testUser.getTeams().size());
+
+        userService.assignUserToTeam(JOHN_DOE_2_EXAMPLE_COM,"Team2");
+
+        testUser = userService.getUser(JOHN_DOE_2_EXAMPLE_COM);
+        assertEquals(2,testUser.getTeams().size());
+
     }
 }

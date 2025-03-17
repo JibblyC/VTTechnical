@@ -14,4 +14,8 @@ public class TeamService {
     public Team createTeam(String teamName){
         return teamRepository.save(new Team(teamName));
     }
+
+    public Team findByTeamName(String teamName){
+        return teamRepository.findByTeamName(teamName);
+    }
 }

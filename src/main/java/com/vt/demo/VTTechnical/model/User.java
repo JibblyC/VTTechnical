@@ -3,6 +3,7 @@ package com.vt.demo.VTTechnical.model;
 
 import jakarta.persistence.*;
 
+import javax.validation.constraints.*;
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -14,14 +15,16 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
 
+    @NotNull(message = "Email cannot be null")
+    @Size(min = 2, max = 50, message = "Email must be between 2 and 50 characters")
     private String email;
 
     private Timestamp dateJoined;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
     private List<Document> documents;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "user_teams",
             joinColumns = @JoinColumn(name = "user_id"),
@@ -35,6 +38,11 @@ public class User {
     public User(String email, List<Team> teams) {
         this.email = email;
         this.teams = teams;
+        this.dateJoined = new Timestamp(System.currentTimeMillis());
+    }
+
+    public void addTeam(Team team){
+        teams.add(team);
     }
 
     public Long getId() {

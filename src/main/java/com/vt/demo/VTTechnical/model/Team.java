@@ -1,10 +1,12 @@
 package com.vt.demo.VTTechnical.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+
 import java.util.Set;
 
 @Entity
-@Table(name = "teams", uniqueConstraints = @UniqueConstraint(columnNames = "teamName"))
+@Table(name = "teams", uniqueConstraints = @UniqueConstraint(columnNames = "team_name"))
 public class Team {
 
     @Id
@@ -13,11 +15,13 @@ public class Team {
 
     private String teamName;
 
-    @ManyToMany(mappedBy = "teams")
+    @JsonIgnore
+    @ManyToMany(mappedBy = "teams", fetch = FetchType.EAGER)
     private Set<User> users;
 
-    // Getters and Setters
-
+    public void addUser(User user){
+        users.add(user);
+    }
 
     public Team() {
     }

@@ -1,26 +1,23 @@
 CREATE TABLE if not exists users (
 	date_joined TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-	user_id INT NOT NULL AUTO_INCREMENT,
+	user_id SERIAL PRIMARY KEY,
 	email varchar(255) NOT NULL,
-	CONSTRAINT users_pkey PRIMARY KEY (user_id),
 	CONSTRAINT email_unique UNIQUE (email)
 );
 
 -- Create 'documents' table
 CREATE TABLE if not exists documents (
-	document_id INT NOT NULL AUTO_INCREMENT,
+	document_id SERIAL PRIMARY KEY,
 	user_id INT NOT NULL,
 	date_added TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 	document_name varchar(255) NULL,
 	word_count INT NULL,
-	CONSTRAINT documents_pkey PRIMARY KEY (document_id),
 	CONSTRAINT fk_user_id FOREIGN KEY (user_id) REFERENCES users(user_id)
 );
 
 CREATE TABLE IF NOT EXISTS teams (
-    team_id INT NOT NULL AUTO_INCREMENT,
-    team_name VARCHAR(255) NOT NULL,
-    PRIMARY KEY (team_id)
+    team_id SERIAL PRIMARY KEY,
+    team_name VARCHAR(255) NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS user_teams (
@@ -33,7 +30,7 @@ CREATE TABLE IF NOT EXISTS user_teams (
 
 INSERT INTO users (date_joined, email)
 VALUES
-    ('2025-03-12', 'john.doe@example.com'),
+    ('2025-03-12', 'john.doe2@example.com'),
     ('2025-03-11', 'jane.smith@example.com'),
     ('2025-03-10', 'alice.jones@example.com'),
     ('2025-03-09', 'bob.brown@example.com'),
@@ -46,12 +43,23 @@ VALUES
     ('2025-03-10T08:45:00', 3, 'Annual Report', 3000),
     ('2025-03-09T14:15:00', 4, 'Meeting Minutes', 500),
     ('2025-03-08T11:00:00', 5, 'Research Paper', 2500),
-    ('2025-03-08T11:00:00', 5, 'Lorum.txta579f592-a01c-44ea-a21a-790be20d0bb9', 2500);
-
+    ('2025-03-08T11:00:00', 5, 'One_ThousandWords_English.txt', 2500);
 
 INSERT INTO teams (team_name)
 VALUES
     ('Team1'),
     ('Team2');
+
+INSERT INTO user_teams (user_id, team_id)
+VALUES
+    (1,1),
+    (2,2),
+    (3,1),
+    (4,2),
+    (5,1);
+
+
+
+
 
 

@@ -19,6 +19,5 @@ public class GeminiService {
                 .call()
                 .content();
     }
-
-    }
+}
 

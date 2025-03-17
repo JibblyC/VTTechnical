@@ -11,9 +11,9 @@ import java.util.List;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
-    List<User> findByEmail(String email);
+    User findByEmail(String email);
 
-    @Query(value = "SELECT * FROM users u WHERE u.date_joined >= :startDate AND " +
+    @Query(value = "SELECT * FROM users u WHERE u.date_joined <= :endDate AND " +
             "u.user_id not in (select d.user_id from documents d where d.date_added > :startDate and d.date_added < :endDate)", nativeQuery = true)
     List<User> findUsersWithNoUploads(@Param("startDate") Timestamp startDate,@Param("endDate") Timestamp endDate);
 

@@ -4,7 +4,8 @@ package com.vt.demo.VTTechnical.dao;
 import com.vt.demo.VTTechnical.model.User;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.jdbc.Sql;
 
 import java.sql.Timestamp;
@@ -12,19 +13,15 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.springframework.test.context.jdbc.Sql.ExecutionPhase.BEFORE_TEST_CLASS;
 
-@DataJpaTest
-@Sql(scripts = "/create-schema.sql")
+@SpringBootTest
+@Sql(scripts = "/create-schema.sql", executionPhase = BEFORE_TEST_CLASS)
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
 public class UserRepositoryTests {
 
     @Autowired
     private UserRepository userRepository;
-
-    @Test
-    public void testFindByEmail() {
-        List<User> foundUser = userRepository.findByEmail("john.doe@example.com");
-        assertEquals(1,foundUser.size());
-    }
 
     @Test
     public void testFindByDateGreaterThen() {

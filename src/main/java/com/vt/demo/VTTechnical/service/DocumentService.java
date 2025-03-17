@@ -21,6 +21,7 @@ import java.util.regex.Pattern;
 public class DocumentService {
 
     public static final String REGEX_WORD_PATTERN = "\\b[a-zA-Z0-9'@.-]+\\b";
+
     @Autowired
     DocumentRepository documentRepository;
 
@@ -30,12 +31,8 @@ public class DocumentService {
     @Value("${document.ignore.regex.pattern}")
     private String ignoreWordListRegexPattern;
 
-    @Autowired
-    UserService userService;
-
 
     public Optional<Document> getDocumentByDocumentId(long documentId){
-
         return documentRepository.findById(documentId);
     }
 
@@ -65,7 +62,7 @@ public class DocumentService {
         List<Map.Entry<String, Integer>> wordList = new ArrayList<>(wordCountMap.entrySet());
         wordList.sort((entry1, entry2) -> entry2.getValue().compareTo(entry1.getValue()));
 
-        //Covert back to Map and take top ten
+        //Covert back to Map and take top ten -- overkill ?
         Map<String, Integer> topTenMap = new LinkedHashMap<>();
         for (int i = 0; i < Math.min(10, wordList.size()); i++) {
             Map.Entry<String, Integer> entry = wordList.get(i);

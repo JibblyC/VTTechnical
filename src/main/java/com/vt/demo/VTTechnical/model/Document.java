@@ -1,10 +1,12 @@
 package com.vt.demo.VTTechnical.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+
 import java.sql.Timestamp;
 
 @Entity
-@Table(name="documents")
+@Table(name = "documents")
 public class Document {
 
     @Id
@@ -17,6 +19,7 @@ public class Document {
 
     private Timestamp dateAdded;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "user_id") // The foreign key column
     User user;

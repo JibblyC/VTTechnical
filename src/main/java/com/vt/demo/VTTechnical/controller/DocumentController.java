@@ -36,12 +36,11 @@ public class DocumentController {
         if (userEmail.isEmpty()) {
             return ResponseEntity.badRequest().body("Please enter a valid email");
         }
-        User currentUser = userService.getUser(userEmail).getFirst();
+        User currentUser = userService.getUser(userEmail);
         if (currentUser == null) {
             return ResponseEntity.badRequest().body(String.format("User %s has not been registered with the system, please register or choose another user", userEmail));
         }
         try {
-
             Document savedDocument = documentService.createNewDocument(document, currentUser);
             return ResponseEntity.ok(String.format("Document with id %s uploaded successfully", savedDocument.getDocumentId()));
         } catch (IOException ex) {
